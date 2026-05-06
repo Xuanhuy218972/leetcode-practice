@@ -1,0 +1,21 @@
+name: Sync Leetcode
+
+on:
+  workflow_dispatch: # Cho phép bạn bấm chạy bằng tay
+  schedule:
+    - cron: "0 17 * * *" # Tự động chạy vào 17:00 UTC (Tức 0h00 đêm giờ Việt Nam) mỗi ngày
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Sync
+        uses: joshcai/leetcode-sync@v1.7
+        with:
+          github-token: ${{ github.token }}
+          leetcode-csrf-token: ${{ secrets.LEETCODE_CSRF_TOKEN }}
+          leetcode-session: ${{ secrets.LEETCODE_SESSION }}
+          destination-folder: my-solutions # Đổi tên thư mục tùy ý, hoặc để trống để lưu ở thư mục gốc
+          verbose: true
+          commit-header: '[Auto-sync] Thêm code LeetCode'
